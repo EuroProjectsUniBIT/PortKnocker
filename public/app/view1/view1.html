@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-7">
+    <div class="row">
+      <div class="col-md-12">
+        <button ng-click="addAction()" class="btn btn-default">Add Action</button>
+        <button class="btn btn-default">Knock Selected</button>
+        <button ng-click="knockAll()" class="btn btn-default">Knock All</button>
+        <button class="btn btn-default">Save current list</button>
+        <a class="btn btn-default" ng-href="{{data}}" download="data.json">Export
+          <span class="glyphicon glyphicon-floppy-save"></span>
+        </a>
+        <button class="btn btn-default">Import
+          <span class="glyphicon glyphicon-floppy-open"></span>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-1"></div>
+      <div class="col-md-4"></div>
+    </div>
+    <div class="table table-striped table-hover">
+      <table id="port-table" class="table">
+        <thead>
+          <th>#</th>
+          <th>Address</th>
+          <th>Port</th>
+          <th>Protocol</th>
+          <th>Action</th>
+        </thead>
+        <tbody ng-repeat="item in list">
+          <tr>
+            <th>
+              <label for="check">
+                {{$index}}
+                <input type="checkbox" id="check">
+              </label>
+            </th>
+            <td>
+              <input type="text" ng-model="item.ip" class="form-control" id="port" placeholder="0.0.0.0">
+            </td>
+            <td>
+              <input type="text" ng-model="item.port" class="form-control" id="port" placeholder="1337">
+            </td>
+            <td>
+              <select ng-model="item.protocol" class="form-control">
+                <option ng-repeat="protocol in protocols">{{protocol}}</option>
+              </select>
+            </td>
+            <td>
+              <button ng-click="knock(item)" class="btn btn-default" name="knockCheck">Knock</button>
+              <button ng-click="copyAndAdd(list,$index)" class="btn btn-default">Copy</button>
+              <button ng-click="moveArray(list,$index,$index+1)" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-down"></span>
+              </button>
+              <button ng-click="moveArray(list,$index,$index-1)" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-up"></span>
+              </button>
+              <button ng-click="removeArrayElement(list,$index)" class="btn btn-default">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>
