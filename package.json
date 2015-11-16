@@ -14,6 +14,7 @@
     "ip-header": "^0.1.2",
     "morgan": "~1.6.1",
     "net-ping": "^1.1.12",
+    "node-letsencrypt": "0.0.4",
     "ping": "^0.1.10",
     "serve-favicon": "~2.3.0"
   },
