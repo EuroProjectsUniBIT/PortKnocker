@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var ping = require('ping');
 var net = require('net');
-var client = new net.Socket();
+var IpHeader = require('ip-header');
+var socket = require('socket.io');
+var dgram = require('dgram');
 
 
 /* GET home page. */
@@ -24,6 +26,7 @@ router.get('/ping', function(req, res, next) {
 });
 
 router.get('/tcp', function(req, res, next) {
+  var client = new net.Socket();
   var ip = req.query.ip;
   var port = req.query.port;
   client.connect(port, ip, function() {
@@ -40,6 +43,16 @@ router.get('/tcp', function(req, res, next) {
   res.send('ok');
 });
 
+router.get('/udp', function(req, res, next) {
+  var ip = req.query.ip;
+  var port = req.query.port;
 
+  var message = new Buffer("Knock knock !");
+  var client = dgram.createSocket("udp4");
+  client.send(message, 0, message.length, port, ip, function(err) {
+    client.close();
+  });
+  res.send('sent');
+});
 
 module.exports = router;

@@ -3,16 +3,27 @@
   <div class="col-md-7">
     <div class="row">
       <div class="col-md-12">
+
         <button ng-click="addAction()" class="btn btn-default">Add Action</button>
-        <button class="btn btn-default">Knock Selected</button>
         <button ng-click="knockAll()" class="btn btn-default">Knock All</button>
-        <button class="btn btn-default">Save current list</button>
-        <a class="btn btn-default" ng-href="{{data}}" download="data.json">Export
+        <a class="btn btn-default" ng-click="exportItemsInList()" ng-href="{{data}}" download="filter.rsc">Export
           <span class="glyphicon glyphicon-floppy-save"></span>
         </a>
-        <button class="btn btn-default">Import
+        <button class="btn btn-default" ng-click="generateRandomList(10)" disabled="">Import
           <span class="glyphicon glyphicon-floppy-open"></span>
         </button>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Generate
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="" ng-click="generateRandomList(10)">10 Ports and Protocols</a></li>
+            <li><a href="" ng-click="generateRandomList(20)">20 Ports and Protocols</a></li>
+            <li><a href="" ng-click="generateRandomList(40)">40 Ports and Protocols</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="" ng-click="generateRandomList(100)">100 Ports and Protocols</a></li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -32,10 +43,7 @@
         <tbody ng-repeat="item in list">
           <tr>
             <th>
-              <label for="check">
-                {{$index}}
-                <input type="checkbox" id="check">
-              </label>
+              {{$index}}
             </th>
             <td>
               <input type="text" ng-model="item.ip" class="form-control" id="port" placeholder="0.0.0.0">
