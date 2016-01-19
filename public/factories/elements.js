@@ -5,10 +5,10 @@ angular.module('myApp')
     factory.actions = function() {
       return [
         'accept',
-        'add dst to address list',
-        'add src to address list',
+        'add-dst-to-address-list',
+        'add-src-to-address-list',
         'drop',
-        'fasttrack connection',
+        'fasttrack-connection',
         'jump',
         'log',
         'passthrough',
@@ -18,13 +18,17 @@ angular.module('myApp')
       ];
     };
 
+    factory.chains = function() {
+      return ['forward', 'input', 'output'];
+    };
+
     //Sample elements for the home page
     factory.list = function() {
       var ip = '192.168.137.184';
       return [{
         ip: ip,
         port: '123',
-        chain: 'input',
+        chain: chains()[1],
         action: 'add-src-to-address-list',
         address_list: 'test',
         address_list_timeout: '5m',
@@ -34,7 +38,7 @@ angular.module('myApp')
       }, {
         ip: ip,
         port: '123',
-        chain: 'input',
+        chain: chains()[1],
         action: 'add-src-to-address-list',
         address_list: 'test',
         address_list_timeout: '5m',
@@ -43,11 +47,10 @@ angular.module('myApp')
         protocol: factory.protocols()[0]
       }];
     };
-    
+
     factory.protocols = function() {
       return ['tcp', 'udp'];
     };
-
 
     factory.generateRandomList = function(items) {
       var result = [];
@@ -57,10 +60,10 @@ angular.module('myApp')
         result.push({
           protocol: factory.protocols()[protocol],
           port: port,
-          chain: 'input',
+          chain: factory.chains()[1],
           action: factory.actions()[2],
           address_list_timeout: '5m',
-          comment: 'The comment ?'
+          comment: ''
         });
       }
       return result;

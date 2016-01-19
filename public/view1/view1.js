@@ -12,19 +12,44 @@
 
   .controller('View1Ctrl', ['$scope', '$q', 'KnockRequester', 'FileExporter', 'ElementFactory', 'RangeService',
     function($scope, $q, KnockRequester, FileExporter, ElementFactory, RangeService) {
+
+      function saveToLocal() {
+        localStorage.setItem('list', JSON.stringify($scope.list));
+      }
+
+      document.getElementById('port-table').addEventListener('keyup', saveToLocal);
+      document.getElementById('port-table').addEventListener('click', saveToLocal);
+
       $scope.protocols = ElementFactory.protocols();
       $scope.actions = ElementFactory.actions();
-      $scope.list = ElementFactory.list();
-      // $scope.list = ElementFactory.generateRandomList(3);
+      $scope.chains = ElementFactory.chains();
+
+
+      if (typeof(Storage) !== "undefined") {
+        // Code for localStorage/sessionStorage.
+        if (localStorage.getItem('list')) {
+          $scope.list = JSON.parse(localStorage.getItem('list'));
+          // saveToLocal();
+        } else {
+          $scope.list = ElementFactory.generateRandomList(5);
+          saveToLocal();
+        }
+      } else {
+        // Sorry! No Web Storage support..
+      }
       $scope.generate = function(amount) {
-        $scope.list = ElementFactory.generateRandomList(amount);
+        var generateTheList = confirm("Generate " + amount + " filters ?");
+        if (generateTheList) {
+          $scope.list = ElementFactory.generateRandomList(amount);
+          saveToLocal();
+        }
+
       };
       $scope.qti = 5;
-      console.log($scope.list);
-      $scope.exportData = FileExporter.export($scope.list);
-      $scope.data = "data: text/plain;charset=utf-8," + encodeURIComponent($scope.exportData);
-
-
+      $scope.export = function() {
+        $scope.exportData = FileExporter.export($scope.list);
+        $scope.data = "data: text/plain;charset=utf-8," + encodeURIComponent($scope.exportData);
+      };
       $scope.knockAll = function() {
         function timeoutRequest(i) {
           setTimeout(function() {
@@ -40,6 +65,7 @@
       };
       $scope.removeArrayElement = function(array, index) {
         array.splice(index, 1);
+        saveToLocal();
       };
       $scope.copyAndAdd = function(array, index) {
         var original = array[index];
@@ -49,12 +75,13 @@
           protocol: original.protocol
         };
         array.splice(index + 1, 0, copy);
+        saveToLocal();
       };
       $scope.moveArray = function(array, from, to) {
         if (!(to < 0)) {
           array.splice(to, 0, array.splice(from, 1)[0]);
         }
-        console.log(array);
+        saveToLocal();
       };
       $scope.addAction = function() {
         $scope.list.push({
@@ -62,11 +89,11 @@
           port: '23',
           protocol: 'tcp'
         });
+        saveToLocal();
       };
       $scope.knock = function(data) {
-        // console.log(data);
+
         KnockRequester.sendKnock(data);
-        // console.log($scope.data);
       };
     }
   ]);

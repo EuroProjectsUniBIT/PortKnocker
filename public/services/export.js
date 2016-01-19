@@ -32,7 +32,7 @@ angular.module('myApp')
       });
       //chain=input action=drop src-address-list=!Knock99 in-interface=ether1 log=yes log-prefix=""
 
-      exportData += 'add chain=input action=drop src-address-list=!Knocker' + (list.length - 1) + ' in-interface=ether1 log=yes log-prefix="_INPUT"';
+      // exportData += 'add chain=input action=drop src-address-list=!Knocker' + (list.length - 1) + ' in-interface=ether1 log=yes log-prefix="_INPUT"';
 
       return exportData;
     };
