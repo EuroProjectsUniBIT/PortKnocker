@@ -18,7 +18,7 @@
         localStorage.setItem('list', JSON.stringify($scope.list));
         localStorage.setItem('settings', JSON.stringify($scope.settings));
       }
-      
+
       $scope.applyTimeout = function() {
         for (var i = 0; i < $scope.list.length; i++) {
           $scope.list[i].address_list_timeout = $scope.settings.defaultTimeout;
@@ -34,11 +34,12 @@
 
       if (typeof(Storage) !== "undefined") {
         // Code for localStorage/sessionStorage.
+
+        console.log($scope.settings);
         if (localStorage.getItem('list')) {
           $scope.list = JSON.parse(localStorage.getItem('list'));
-          // saveToLocal();
         } else {
-          $scope.list = ElementFactory.generateRandomList(5, $scope.settings);
+          $scope.list = ElementFactory.generateRandomList(5);
           saveToLocal();
         }
         if (localStorage.getItem('settings') !== "undefined") {
@@ -86,7 +87,7 @@
           }
         });
 
-        $scope.list = ElementFactory.generateRandomList(amount, $scope.settings);
+        $scope.list = ElementFactory.generateRandomList(amount);
         saveToLocal();
       };
 
