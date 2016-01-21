@@ -52,7 +52,7 @@ angular.module('myApp')
       return ['tcp', 'udp'];
     };
 
-    factory.generateRandomList = function(items) {
+    factory.generateRandomList = function(items, settings) {
       var result = [];
       for (var i = 0; i < items; i++) {
         var protocol = Math.floor((Math.random() * 2));
@@ -62,7 +62,7 @@ angular.module('myApp')
           port: port,
           chain: factory.chains()[1],
           action: factory.actions()[2],
-          address_list_timeout: '5m',
+          address_list_timeout: settings.defaultTimeout,
           comment: ''
         });
       }

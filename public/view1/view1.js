@@ -18,6 +18,13 @@
         localStorage.setItem('list', JSON.stringify($scope.list));
         localStorage.setItem('settings', JSON.stringify($scope.settings));
       }
+      
+      $scope.applyTimeout = function() {
+        for (var i = 0; i < $scope.list.length; i++) {
+          $scope.list[i].address_list_timeout = $scope.settings.defaultTimeout;
+        }
+        saveToLocal();
+      };
 
       document.getElementById('port-table').addEventListener('keyup', saveToLocal);
       document.getElementById('port-table').addEventListener('click', saveToLocal);
@@ -31,7 +38,7 @@
           $scope.list = JSON.parse(localStorage.getItem('list'));
           // saveToLocal();
         } else {
-          $scope.list = ElementFactory.generateRandomList(5);
+          $scope.list = ElementFactory.generateRandomList(5, $scope.settings);
           saveToLocal();
         }
         if (localStorage.getItem('settings') !== "undefined") {
@@ -43,7 +50,9 @@
             isRelated: true,
             dropPorts: [21, 22, 8291, 8080],
             generateErrors: [],
-            isDroppable: false
+            isDroppable: false,
+            addressListName: 'Knocker',
+            defaultTimeout: '5m'
           };
           saveToLocal();
         }
@@ -77,7 +86,7 @@
           }
         });
 
-        $scope.list = ElementFactory.generateRandomList(amount);
+        $scope.list = ElementFactory.generateRandomList(amount, $scope.settings);
         saveToLocal();
       };
 

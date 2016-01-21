@@ -62,3 +62,6 @@ body {
   position: absolute;
   right:0;
 }*/
+.input-group-addon{
+  width:25% !important;
+}

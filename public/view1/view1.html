@@ -67,15 +67,34 @@
                   <tr>
                     <td colspan="4">
                       <div class="input-group col-md-12">
-                        <span class="input-group-addon" data-toggle="tooltip" data-placement="top" title="Drop the ports that are not in the last address list">
-                          <label>
-                            <input ng-model="settings.isDroppable" type="checkbox"> Drop Ports :
-                          </label>
+                        <span class="input-group-addon" ng-click="settings.isDroppable = !settings.isDroppable" data-toggle="tooltip" data-placement="top" title="Click to lock/disable">
+                          Drop Ports :
                         </span>
                         <input ng-disabled="!settings.isDroppable" type="text" class="form-control" placeholder="80,8080,1337" ng-model="settings.dropPorts">
                         <span ng-hide="!settings.isDroppable" class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
                         <span ng-hide="settings.isDroppable" class="glyphicon glyphicon-lock form-control-feedback" aria-hidden="true"></span>
                       </div>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      <div class="input-group col-md-12">
+                        <span class="input-group-addon" data-toggle="tooltip" data-placement="top" title="Default address list name.">
+                          Addres List :
+                        </span>
+                        <input type="text" class="form-control" placeholder="Knocker" ng-model="settings.addressListName">
+
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      <div class="input-group col-md-12">
+                        <span  ng-model="settings.defaultTimeout" class="input-group-addon" data-toggle="tooltip" data-placement="top" title="Default timeout. Click to apply.">
+                          Timeout :
+                        </span>
+                        <input ng-keyup="applyTimeout()" type="text" class="form-control" placeholder="5m" ng-model="settings.defaultTimeout">
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <td colspan="3">
@@ -86,7 +105,7 @@
                             <span ng-if="qti == 1">Filter</span>
                           </span>
                         </span>
-                        <input  class="form-control" type="range" min="1" max="100" ng-model="qti">
+                        <input class="form-control" type="range" min="1" max="100" ng-model="qti">
                         <div>
 
                     </td>
