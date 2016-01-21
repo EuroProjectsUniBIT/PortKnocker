@@ -23,7 +23,7 @@ angular.module('myApp')
           'chain=' + chain +
           ' action=' + action +
           ' protocol=' + value.protocol +
-          ' address-list=Knocker' + key + ' ' +
+          ' address-list=' + settings.addressListName + key + ' ' +
           srcAddrList +
           ' address-list-timeout=' + address_list_timeout +
           ' dst-port=' + value.port +
@@ -52,7 +52,7 @@ angular.module('myApp')
       if (settings.isDroppable === true) {
         exportData += 'add action=drop chain=input disabled=yes dst-port=' + settings.dropPorts + ' protocol=tcp src-address-list=!Knocker' + (list.length - 1);
       }
-      
+
       return exportData;
     };
 
