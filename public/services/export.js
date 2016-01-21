@@ -50,7 +50,7 @@ angular.module('myApp')
 
       exportData += 'add chain=input connection-state=' + establishedRelated() + '\r\n';
       if (settings.isDroppable === true) {
-        exportData += 'add action=drop chain=input disabled=yes dst-port=' + settings.dropPorts + ' protocol=tcp src-address-list=!Knocker' + (list.length - 1);
+        exportData += 'add action=drop chain=input disabled=yes dst-port=' + settings.dropPorts + ' protocol=tcp src-address-list=!' + settings.addressListName + (list.length - 1);
       }
 
       return exportData;
