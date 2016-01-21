@@ -16,7 +16,7 @@ angular.module('myApp')
         var protocol = value.protocol;
         var port = value.port;
         //Auto increment the src_address_list
-        var srcAddrList = key > 0 ? 'src-address-list=Knocker' + (key - 1) : ' ';
+        var srcAddrList = key > 0 ? 'src-address-list=' + settings.addressListName + (key - 1) : ' ';
 
         temp =
           'add ' +
