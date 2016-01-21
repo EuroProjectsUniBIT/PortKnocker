@@ -10,6 +10,6 @@ angular.module('myApp', [
 config(['$routeProvider', '$compileProvider', function($routeProvider, $compileProvider) {
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|data):/);
   $routeProvider.otherwise({
-    redirectTo: '/view1'
+    redirectTo: '/generator'
   });
 }]);

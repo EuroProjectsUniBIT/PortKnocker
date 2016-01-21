@@ -3,8 +3,4 @@ $(document).ready(function() {
   $("body").tooltip({
     selector: '[data-toggle=tooltip]'
   });
-
-  $('[data-toggle="confirmation"]').confirmation('toggle');
-
-  
 });

@@ -1,10 +1,11 @@
 angular.module('myApp')
   .service('FileExporter', [function() {
-    this.export = function(list) {
+    this.export = function(list, settings) {
       var exportData = "/ip firewall filter \r\n";
       var temp = '';
       var port = '';
       var protocol = '';
+
       angular.forEach(list, function(value, key) {
         var chain = value.chain;
         // var address_list = value.address_list;
@@ -32,8 +33,26 @@ angular.module('myApp')
       });
       //chain=input action=drop src-address-list=!Knock99 in-interface=ether1 log=yes log-prefix=""
 
-      // exportData += 'add chain=input action=drop src-address-list=!Knocker' + (list.length - 1) + ' in-interface=ether1 log=yes log-prefix="_INPUT"';
+      var establishedRelated = function() {
+        if (settings.isEstablished === true && settings.isRelated === true) {
+          return 'established,related';
+        }
+        if (settings.isEstablished === true && settings.isRelated === false) {
+          return 'established';
+        }
+        if (settings.isEstablished === false && settings.isRelated === true) {
+          return 'related';
+        }
+        if (settings.isEstablished === false && settings.isRelated === false) {
+          return '';
+        }
+      };
 
+      exportData += 'add chain=input connection-state=' + establishedRelated() + '\r\n';
+      if (settings.isDroppable === true) {
+        exportData += 'add action=drop chain=input disabled=yes dst-port=' + settings.dropPorts + ' protocol=tcp src-address-list=!Knocker' + (list.length - 1);
+      }
+      
       return exportData;
     };
 

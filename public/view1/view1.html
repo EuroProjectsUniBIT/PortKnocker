@@ -19,8 +19,8 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li> <a href="#/view1">Generator</a></li>
-                <li> <a href="#/view2">Knocker</a></li>
+                <li> <a href="#/generator">Generator</a></li>
+                <li> <a href="#/knocker">Knocker</a></li>
 
               </ul>
             </div>
@@ -31,7 +31,7 @@
       </div>
       <div class="col-md-12">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
           Settings
         </button>
 
@@ -44,107 +44,150 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Settings</h4>
+                <div ng-repeat="item in settings.generateErrors">
+
+                </div>
+                <span ng-if="settings.generateErrors.length >= 1">
+                  <button class="btn btn-danger btn-lg btn-block">{{settings.generateErrors}}
+                    <span ng-if="settings.generateErrors.length > 1"> are not valid ports</span>
+                    <span ng-if="settings.generateErrors.length  == 1">is not a valid port</span>
+                  </button>
+                </span>
               </div>
               <div class="modal-body">
                 <table class="table">
                   <tr>
                     <td>
-                      <button class="btn btn-primary btn-lg btn-block" ng-click="addAction()">Add Filter</button>
+                      <button class="btn btn-lg btn-block" ng-click="addAction()" data-toggle="tooltip" data-placement="top" title="Add a filter at the end of the list.">Add Filter</button>
                     </td>
                     <td>
-                      <button ng-click="knockAll()" class="btn btn-primary btn-lg btn-block" disabled>Knock All</button>
-                    </td>
-                    <td>
-                      <a class="btn btn-primary btn-lg btn-block" ng-click="export()" ng-href="{{data}}" download="filter.rsc">Export
-                                <span class="glyphicon glyphicon-floppy-save"></span>
-                              </a>
+                      <button ng-click="knockAll()" class="btn btn-lg btn-block" disabled>Knock All</button>
                     </td>
                   </tr>
                   <tr>
                     <td colspan="4">
-                      <button href="" class="btn btn-primary btn-lg btn-block" ng-click="generate(qti)">
-                        <input type="range" min="1" max="100" ng-model="qti">Generate {{qti}}</button>
+                      <div class="input-group col-md-12">
+                        <span class="input-group-addon" data-toggle="tooltip" data-placement="top" title="Drop the ports that are not in the last address list">
+                          <label>
+                            <input ng-model="settings.isDroppable" type="checkbox"> Drop Ports :
+                          </label>
+                        </span>
+                        <input ng-disabled="!settings.isDroppable" type="text" class="form-control" placeholder="80,8080,1337" ng-model="settings.dropPorts">
+                        <span ng-hide="!settings.isDroppable" class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
+                        <span ng-hide="settings.isDroppable" class="glyphicon glyphicon-lock form-control-feedback" aria-hidden="true"></span>
+                      </div>
+                  </tr>
+                  <tr>
+                    <td colspan="3">
+                      <div class="input-group col-md-12">
+                        <span class="input-group-addon">
+                          <span class="badge" data-toggle="tooltip" data-placement="top" title="Amount of filters to be generated.">{{qti}}
+                            <span ng-if="qti > 1">Filters</span>
+                            <span ng-if="qti == 1">Filter</span>
+                          </span>
+                        </span>
+                        <input  class="form-control" type="range" min="1" max="100" ng-model="qti">
+                        <div>
+
                     </td>
                   </tr>
+                  <tr>
+                    <td colspan="3">
+                      <label class="checkbox-inline" data-toggle="tooltip" data-placement="top" title="Accept established connections.">
+                        <input ng-model="settings.isEstablished" type="checkbox" id="inlineCheckbox1" value="option1" checked> established
+                      </label>
+                      <label class="checkbox-inline" data-toggle="tooltip" data-placement="top" title="Accept related connections.">
+                        <input ng-model="settings.isRelated" type="checkbox" id="inlineCheckbox1" value="option1" checked> related
+                      </label>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="3">
+                      <button href="" class="btn btn-lg btn-block" ng-click="generate(qti)" data-toggle="tooltip" data-placement="top" title="Click to generate">
+                        Generate {{qti}} Random
+                        <span ng-if="qti > 1">Filters</span>
+                        <span ng-if="qti == 1">Filter</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="3">
+                      <a class="btn btn-success btn-lg btn-block" ng-click="export()" ng-href="{{data}}" download="filter.rsc" data-toggle="tooltip" data-placement="top" title="Download the configuration with the generated filters !">Download Configuration
+                                <span class="glyphicon glyphicon-floppy-save"></span>
+                              </a></td>
+                  </tr>
                 </table>
+                </div>
+                </div>
               </div>
-              <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-              </div>
+            </div>
+            <div>
+              <table id="port-table" class="table table-hover">
+                <thead>
+                  <th>#</th>
+                  <th>Port</th>
+                  <th>Protocol</th>
+                  <th>Chain</th>
+                  <th>Timeout</th>
+                  <th>Comment</th>
+                  <th>Action</th>
+                  <th>Move/Remove</th>
+                </thead>
+                <tbody ng-repeat="item in list">
+                  <tr>
+                    <th>
+                      {{$index}}
+                    </th>
+                    <!-- <td>
+              <input type="text" ng-model="item.ip" class="form-control" id="port" placeholder="0.0.0.0">
+            </td> -->
+                    <td>
+                      <input type="text" ng-model="item.port" class="form-control" placeholder="8080">
+                    </td>
+                    <td>
+                      <select ng-model="item.protocol" class="form-control">
+                        <option ng-repeat="protocol in protocols">{{protocol}}</option>
+                      </select>
+                    </td>
+                    <td>
+                      <select ng-model="item.chain" class="form-control">
+                        <option ng-repeat="chain in chains">{{chain}}</option>
+                      </select>
+                      <!-- <input type="text" ng-model="item.chain" class="form-control" placeholder="Input"> -->
+                    </td>
+                    <td>
+                      <input type="text " ng-model="item.address_list_timeout" class="form-control" placeholder="5m">
+                    </td>
+                    <td>
+                      <input type="text " ng-model="item.comment " class="form-control " placeholder="Important comment here !">
+                    </td>
+                    <td>
+                      <select ng-model="item.action" class="form-control">
+                        <option ng-repeat="action in actions ">{{action}}</option>
+                      </select>
+                    </td>
+
+                    <!-- add-src-to-address-list -->
+                    <td>
+                      <!-- <button ng-click="knock(item) " class="btn btn-default " name="knockCheck ">Knock</button>
+              <button ng-click="copyAndAdd(list,$index) " class="btn btn-default ">Copy</button> -->
+                      <div class="dropdown ">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                          Options
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu " aria-labelledby="dropdownMenu1 ">
+                          <li ng-click="moveArray(list,$index,$index-1)"><a href="" class="glyphicon glyphicon-arrow-up">Up</a></li>
+                          <li ng-click="moveArray(list,$index,$index+1)"><a href="" class="glyphicon glyphicon-arrow-down">Down</a></li>
+                          <li ng-click="removeArrayElement(list,$index)"><a href="" class="glyphicon glyphicon-remove">Remove</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-        <div class="table table-striped table-hover">
-          <table id="port-table" class="table">
-            <thead>
-              <th>#</th>
-              <th>Port</th>
-              <th>Protocol</th>
-              <th>Chain</th>
-              <th>Timeout</th>
-              <th>Comment</th>
-              <th>Action</th>
-              <th>Move/Remove</th>
-            </thead>
-            <tbody ng-repeat="item in list">
-              <tr>
-                <th>
-                  {{$index}}
-                </th>
-                <!-- <td>
-              <input type="text" ng-model="item.ip" class="form-control" id="port" placeholder="0.0.0.0">
-            </td> -->
-                <td>
-                  <input type="text" ng-model="item.port" class="form-control" placeholder="8080">
-                </td>
-                <td>
-                  <select ng-model="item.protocol" class="form-control">
-                    <option ng-repeat="protocol in protocols">{{protocol}}</option>
-                  </select>
-                </td>
-                <td>
-                  <select ng-model="item.chain" class="form-control">
-                    <option ng-repeat="chain in chains">{{chain}}</option>
-                  </select>
-                  <!-- <input type="text" ng-model="item.chain" class="form-control" placeholder="Input"> -->
-                </td>
-                <td>
-                  <input type="text " ng-model="item.address_list_timeout" class="form-control" placeholder="5m">
-                </td>
-                <td>
-                  <input type="text " ng-model="item.comment " class="form-control " placeholder="Important comment here !">
-                </td>
-                <td>
-                  <select ng-model="item.action" class="form-control">
-                    <option ng-repeat="action in actions ">{{action}}</option>
-                  </select>
-                </td>
-
-                <!-- add-src-to-address-list -->
-                <td>
-                  <!-- <button ng-click="knock(item) " class="btn btn-default " name="knockCheck ">Knock</button>
-              <button ng-click="copyAndAdd(list,$index) " class="btn btn-default ">Copy</button> -->
-                  <div class="dropdown ">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                      Options
-                      <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu " aria-labelledby="dropdownMenu1 ">
-                      <li ng-click="moveArray(list,$index,$index-1)"><a href="" class="glyphicon glyphicon-arrow-up">Up</a></li>
-                      <li ng-click="moveArray(list,$index,$index+1)"><a href="" class="glyphicon glyphicon-arrow-down">Down</a></li>
-                      <li ng-click="removeArrayElement(list,$index)"><a href="" class="glyphicon glyphicon-remove">Remove</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
-      <footer class="footer">
-
-
-      </footer>
-    </div>
-  </div>
