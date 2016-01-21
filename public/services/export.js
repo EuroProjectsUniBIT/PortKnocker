@@ -5,6 +5,7 @@ angular.module('myApp')
       var temp = '';
       var port = '';
       var protocol = '';
+      console.log(settings);
 
       angular.forEach(list, function(value, key) {
         var chain = value.chain;
@@ -49,6 +50,7 @@ angular.module('myApp')
       };
 
       exportData += 'add chain=input connection-state=' + establishedRelated() + '\r\n';
+      console.log('downlaod ?!?!?');
       if (settings.isDroppable === true) {
         exportData += 'add action=drop chain=input disabled=yes dst-port=' + settings.dropPorts + ' protocol=tcp src-address-list=!' + settings.addressListName + (list.length - 1);
       }
