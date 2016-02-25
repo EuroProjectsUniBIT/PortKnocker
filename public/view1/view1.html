@@ -58,7 +58,7 @@
                 <table class="table">
                   <tr>
                     <td>
-                      <button class="btn btn-lg btn-block" ng-click="addAction()" data-toggle="tooltip" data-placement="top" title="Add a filter at the end of the list.">Add Filter</button>
+                      <button class="btn btn-lg btn-block" ng-click="addElementToList(list)" data-toggle="tooltip" data-placement="top" title="Add a filter at the end of the list.">Add Filter</button>
                     </td>
                     <td>
                       <button ng-click="knockAll()" class="btn btn-lg btn-block" disabled>Knock All</button>
@@ -179,7 +179,7 @@
                       <input type="text " ng-model="item.address_list_timeout" class="form-control" placeholder="5m">
                     </td>
                     <td>
-                      <input type="text " ng-model="item.comment " class="form-control " placeholder="Important comment here !">
+                      <input type="text " ng-model="item.comment " class="form-control " placeholder="">
                     </td>
                     <td>
                       <select ng-model="item.action" class="form-control">
@@ -197,9 +197,9 @@
                           <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu " aria-labelledby="dropdownMenu1 ">
-                          <li ng-click="moveArray(list,$index,$index-1)"><a href="" class="glyphicon glyphicon-arrow-up">Up</a></li>
-                          <li ng-click="moveArray(list,$index,$index+1)"><a href="" class="glyphicon glyphicon-arrow-down">Down</a></li>
-                          <li ng-click="removeArrayElement(list,$index)"><a href="" class="glyphicon glyphicon-remove">Remove</a></li>
+                          <li ng-click="moveListElement(list,$index,$index-1)"><a href="" class="glyphicon glyphicon-arrow-up">Up</a></li>
+                          <li ng-click="moveListElement(list,$index,$index+1)"><a href="" class="glyphicon glyphicon-arrow-down">Down</a></li>
+                          <li ng-click="removeListElement(list,$index)"><a href="" class="glyphicon glyphicon-remove">Remove</a></li>
                         </ul>
                       </div>
                     </td>
